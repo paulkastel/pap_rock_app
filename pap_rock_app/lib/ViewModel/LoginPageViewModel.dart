@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pap_rock_app/Model/Player.dart';
 import 'package:pap_rock_app/View/LoginPageView.dart';
 
 class LoginPage extends StatefulWidget {
@@ -7,5 +8,18 @@ class LoginPage extends StatefulWidget {
 }
 
 abstract class LoginPageState extends State<LoginPage> {
-  //TODO here viewmodel code
+  PlayerSex userSex;
+  String userName;
+  @override
+  void initState() {
+    userSex = PlayerSex.Male;
+    userName = "";
+    super.initState();
+  }
+
+  void changePlayerSex(PlayerSex sexValue) {
+    setState(() {
+      userSex = sexValue;
+    });
+  }
 }
