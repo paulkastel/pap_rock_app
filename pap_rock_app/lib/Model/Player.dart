@@ -2,9 +2,8 @@
 /// Enum for player sex to choose
 enum PlayerSex { Male, Female }
 
-/**
- * Class that represents user. His name, sex, score etc.
- */
+
+///Class that represents user. His name, sex, score etc.
 class Player {
   Player(String userName, PlayerSex userSex) {
     _name = userName;
