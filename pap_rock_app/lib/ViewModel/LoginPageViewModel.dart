@@ -8,6 +8,7 @@ class LoginPage extends StatefulWidget {
 }
 
 abstract class LoginPageState extends State<LoginPage> {
+  final formNameKey = GlobalKey<FormState>();
   PlayerSex userSex;
   String userName;
   @override
@@ -21,5 +22,18 @@ abstract class LoginPageState extends State<LoginPage> {
     setState(() {
       userSex = sexValue;
     });
+  }
+
+  void changePlayerName(String nameValue) {
+    setState(() {
+      userName = nameValue;
+    });
+  }
+
+  void createNewPlayer() {
+    if (formNameKey.currentState.validate()) {
+      formNameKey.currentState.save();
+      print("new player created: $userSex, $userName");
+    }
   }
 }

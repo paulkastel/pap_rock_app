@@ -2,8 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:pap_rock_app/Model/Player.dart';
 import 'package:pap_rock_app/ViewModel/LoginPageViewModel.dart';
 
+///First page visible for user to enter player data
 class LoginPageView extends LoginPageState {
-  final formNameKey = GlobalKey<FormState>();
+  TextEditingController _txtFieldCtrlr;
+  FocusNode _textFieldFcsNode;
+
+  bool _isTextFormCorrect;
+
+  ///Method that set _isTextFormCorrect based on valid logic
+  void _isUserNameFormValidated() {
+    setState(() {
+      if (_txtFieldCtrlr.text.length < 5)
+        _isTextFormCorrect = false;
+      else
+        _isTextFormCorrect = true;
+    });
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    _txtFieldCtrlr.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _isTextFormCorrect = false;
+    _txtFieldCtrlr = new TextEditingController();
+    _textFieldFcsNode = new FocusNode();
+    _txtFieldCtrlr.addListener(_isUserNameFormValidated);
+    _textFieldFcsNode.addListener(_isUserNameFormValidated);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,6 +43,7 @@ class LoginPageView extends LoginPageState {
         title: Text("PapRocker"),
       ),
       body: Center(
+        //TODO: nice background with gradient
         child: Form(
           key: formNameKey,
           child: Column(
@@ -35,14 +68,19 @@ class LoginPageView extends LoginPageState {
                       return "Name is too short";
                     }
                   },
+                  controller: _txtFieldCtrlr,
+                  focusNode: _textFieldFcsNode,
                   decoration: InputDecoration(
                     hintText: "Player name",
                     contentPadding: EdgeInsets.all(15),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
+                  onFieldSubmitted: (String nameValue) {
+                    changePlayerName(_txtFieldCtrlr.text);
+                  },
                   onSaved: (String nameValue) {
-                    print("nameValue saved");
+                    changePlayerName(_txtFieldCtrlr.text);
                   },
                 ),
               ),
@@ -88,14 +126,8 @@ class LoginPageView extends LoginPageState {
                     },
                   ),
                   MaterialButton(
-                    //TODO: disable button on failed valid
                     child: Text("Done"),
-                    onPressed: () {
-                      if (formNameKey.currentState.validate()) {
-                        formNameKey.currentState.save();
-                        print("player created");
-                      }
-                    },
+                    onPressed: _isTextFormCorrect ? createNewPlayer : null,
                   ),
                 ],
               )
