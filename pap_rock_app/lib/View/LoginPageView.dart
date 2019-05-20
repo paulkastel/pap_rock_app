@@ -12,7 +12,7 @@ class LoginPageView extends LoginPageState {
   ///Method that set _isTextFormCorrect based on valid logic
   void _isUserNameFormValidated() {
     setState(() {
-      if (_txtFieldCtrlr.text.length < 5)
+      if (_txtFieldCtrlr.text.length < 5 || !RegExp(r'^[a-zA-Z]+$').hasMatch(_txtFieldCtrlr.text))
         _isTextFormCorrect = false;
       else
         _isTextFormCorrect = true;
@@ -65,7 +65,10 @@ class LoginPageView extends LoginPageState {
                   keyboardType: TextInputType.text,
                   validator: (nameValue) {
                     if (nameValue.length < 5) {
-                      return "Name is too short";
+                      return "Name is too short!";
+                    }
+                    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(nameValue)) {
+                      return "Name shouldn't contain any special characters!";
                     }
                   },
                   controller: _txtFieldCtrlr,
