@@ -123,20 +123,29 @@ class LoginPageView extends LoginPageState {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    MaterialButton(
-                      child: Text("Select randomly"),
-                      onPressed: () {
-                        print("generate random hero");
-                      },
-                    ),
-                    MaterialButton(
-                      child: Text("Done"),
-                      onPressed: _isTextFormCorrect ? createNewPlayer : null,
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: MaterialButton(
+                          color: Colors.blueAccent,
+                          child: Text("Select randomly"),
+                          onPressed: () {
+                            print("generate random hero");
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      MaterialButton(
+                        color: Colors.green,
+                        child: Text("Done"),
+                        onPressed: _isTextFormCorrect ? createNewPlayer : null,
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
