@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pap_rock_app/Model/Player.dart';
 import 'package:pap_rock_app/View/LoginPageView.dart';
+import 'HomePageViewModel.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -34,6 +35,9 @@ abstract class LoginPageState extends State<LoginPage> {
     if (formNameKey.currentState.validate()) {
       formNameKey.currentState.save();
       print("new player created: $userSex, $userName");
+      Player mainPlayer = new Player(userName, userSex);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => HomePage(mainPlayer)));
     }
   }
 }
