@@ -53,6 +53,13 @@ class LoginPageView extends LoginPageState {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
+                  child: Text(
+                    "PapRock",
+                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                  ),
+                  padding: const EdgeInsets.only(bottom: 30),
+                ),
+                Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
                     "Please enter your name",
