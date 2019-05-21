@@ -16,8 +16,11 @@ class HomePageView extends HomePageState {
           IconButton(
             icon: Icon(Icons.settings_applications),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()));
+              showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SettingsPage();
+                  });
             },
           )
         ],
