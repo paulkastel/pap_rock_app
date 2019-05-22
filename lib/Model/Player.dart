@@ -14,7 +14,7 @@ class Player {
 
   String get playerName => _name;
   set playerName(String name) {
-    if (name.length > 5) {
+    if (name.length >= 5) {
       _name = name;
     }
   }
