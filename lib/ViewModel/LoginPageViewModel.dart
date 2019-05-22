@@ -10,34 +10,33 @@ class LoginPage extends StatefulWidget {
 
 abstract class LoginPageState extends State<LoginPage> {
   final formNameKey = GlobalKey<FormState>();
-  PlayerSex userSex;
-  String userName;
+
+  @protected
+  Player user;
+
   @override
   void initState() {
-    userSex = PlayerSex.Male;
-    userName = "";
+    user = new Player("", PlayerSex.Male);
     super.initState();
   }
 
   void changePlayerSex(PlayerSex sexValue) {
     setState(() {
-      userSex = sexValue;
+      user.playerSex = sexValue;
     });
   }
 
   void changePlayerName(String nameValue) {
     setState(() {
-      userName = nameValue;
+      user.playerName = nameValue;
     });
   }
 
   void createNewPlayer() {
     if (formNameKey.currentState.validate()) {
       formNameKey.currentState.save();
-      print("new player created: $userSex, $userName");
-      Player mainPlayer = new Player(userName, userSex);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => HomePage(mainPlayer)));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage(user)));
     }
   }
 }

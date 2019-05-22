@@ -116,7 +116,7 @@ class LoginPageView extends LoginPageState {
                         onChanged: (sexValue) {
                           changePlayerSex(sexValue);
                         },
-                        groupValue: userSex,
+                        groupValue: user.playerSex,
                       ),
                       Text("Male"),
                       Radio(
@@ -124,7 +124,7 @@ class LoginPageView extends LoginPageState {
                         onChanged: (sexValue) {
                           changePlayerSex(sexValue);
                         },
-                        groupValue: userSex,
+                        groupValue: user.playerSex,
                       ),
                       Text("Female")
                     ],
@@ -139,7 +139,10 @@ class LoginPageView extends LoginPageState {
                           color: Colors.blueAccent,
                           child: Text("Select randomly"),
                           onPressed: () {
-                            print("generate random hero");
+                            _txtFieldCtrlr.text = Player.generateRandomPlayerName();
+                            changePlayerName(_txtFieldCtrlr.text);
+                            changePlayerSex(Player.generateRandomPlayerSex());
+                            print("generate random hero ${user.playerName}, ${user.playerSex}");
                           },
                         ),
                       ),
