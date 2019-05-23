@@ -7,19 +7,6 @@ class LoginPageView extends LoginPageState {
   TextEditingController _txtFieldCtrlr;
   FocusNode _textFieldFcsNode;
 
-  bool _isTextFormCorrect;
-
-  ///Method that set _isTextFormCorrect based on valid logic
-  void _isUserNameFormValidated() {
-    setState(() {
-      if (_txtFieldCtrlr.text.length < 5 ||
-          !RegExp(r'^[a-zA-Z]+$').hasMatch(_txtFieldCtrlr.text))
-        _isTextFormCorrect = false;
-      else
-        _isTextFormCorrect = true;
-    });
-  }
-
   @override
   void dispose() {
     // Clean up the controller when the Widget is disposed
@@ -29,16 +16,15 @@ class LoginPageView extends LoginPageState {
 
   @override
   void initState() {
-    _isTextFormCorrect = false;
-    _txtFieldCtrlr = new TextEditingController();
-    _textFieldFcsNode = new FocusNode();
-    _txtFieldCtrlr.addListener(_isUserNameFormValidated);
-    _textFieldFcsNode.addListener(_isUserNameFormValidated);
     super.initState();
+    _txtFieldCtrlr = new TextEditingController(text: "");
+    _textFieldFcsNode = new FocusNode();
   }
 
   @override
   Widget build(BuildContext context) {
+    _txtFieldCtrlr.addListener(isUserNameFormValidated(_txtFieldCtrlr.text));
+    _textFieldFcsNode.addListener(isUserNameFormValidated(_txtFieldCtrlr.text));
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -139,10 +125,7 @@ class LoginPageView extends LoginPageState {
                           color: Colors.blueAccent,
                           child: Text("Select randomly"),
                           onPressed: () {
-                            _txtFieldCtrlr.text = Player.generateRandomPlayerName();
-                            changePlayerName(_txtFieldCtrlr.text);
-                            changePlayerSex(Player.generateRandomPlayerSex());
-                            print("generate random hero ${user.playerName}, ${user.playerSex}");
+                            createNewRandomPlayer(this._txtFieldCtrlr);
                           },
                         ),
                       ),
@@ -152,7 +135,7 @@ class LoginPageView extends LoginPageState {
                       MaterialButton(
                         color: Colors.green,
                         child: Text("Done"),
-                        onPressed: _isTextFormCorrect ? createNewPlayer : null,
+                        onPressed: isTextFormCorrect ? createNewPlayer : null,
                       ),
                     ],
                   ),
