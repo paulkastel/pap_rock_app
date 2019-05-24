@@ -19,7 +19,7 @@ abstract class LoginPageState extends State<LoginPage> {
 
   ///Method that set _isTextFormCorrect based on valid logic
   @protected
-  isUserNameFormValidated(String userNameForValidation) {
+  void isUserNameFormValidated(String userNameForValidation) {
     setState(() {
       if (userNameForValidation.length < 5 ||
           !RegExp(r'^[a-zA-Z]+$').hasMatch(userNameForValidation))
@@ -49,7 +49,7 @@ abstract class LoginPageState extends State<LoginPage> {
   }
 
   void createNewRandomPlayer(TextEditingController txtCtrlr) {
-    //TODO:upadte text in textfield without exception thrown
+    txtCtrlr.text = Player.generateRandomPlayerName();
     changePlayerName(txtCtrlr.text);
     changePlayerSex(Player.generateRandomPlayerSex());
     print("generate random hero ${user.playerName}, ${user.playerSex}");

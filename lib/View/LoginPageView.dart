@@ -4,8 +4,7 @@ import 'package:pap_rock_app/ViewModel/LoginPageViewModel.dart';
 
 ///First page visible for user to enter player data
 class LoginPageView extends LoginPageState {
-  TextEditingController _txtFieldCtrlr;
-  FocusNode _textFieldFcsNode;
+  final TextEditingController _txtFieldCtrlr = TextEditingController(text: "");
 
   @override
   void dispose() {
@@ -17,14 +16,13 @@ class LoginPageView extends LoginPageState {
   @override
   void initState() {
     super.initState();
-    _txtFieldCtrlr = new TextEditingController(text: "");
-    _textFieldFcsNode = new FocusNode();
+    _txtFieldCtrlr.addListener(() {
+      isUserNameFormValidated(_txtFieldCtrlr.text);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    _txtFieldCtrlr.addListener(isUserNameFormValidated(_txtFieldCtrlr.text));
-    _textFieldFcsNode.addListener(isUserNameFormValidated(_txtFieldCtrlr.text));
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -69,7 +67,6 @@ class LoginPageView extends LoginPageState {
                       }
                     },
                     controller: _txtFieldCtrlr,
-                    focusNode: _textFieldFcsNode,
                     decoration: InputDecoration(
                       hintText: "Player name",
                       contentPadding: EdgeInsets.all(15),
