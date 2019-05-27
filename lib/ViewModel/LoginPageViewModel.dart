@@ -14,8 +14,24 @@ abstract class LoginPageState extends State<LoginPage> {
   @protected
   Player user;
 
+  @protected
+  bool isTextFormCorrect;
+
+  ///Method that set _isTextFormCorrect based on valid logic
+  @protected
+  void isUserNameFormValidated(String userNameForValidation) {
+    setState(() {
+      if (userNameForValidation.length < 5 ||
+          !RegExp(r'^[a-zA-Z]+$').hasMatch(userNameForValidation))
+        isTextFormCorrect = false;
+      else
+        isTextFormCorrect = true;
+    });
+  }
+
   @override
   void initState() {
+    isTextFormCorrect = false;
     user = new Player("", PlayerSex.Male);
     super.initState();
   }
@@ -30,6 +46,13 @@ abstract class LoginPageState extends State<LoginPage> {
     setState(() {
       user.playerName = nameValue;
     });
+  }
+
+  void createNewRandomPlayer(TextEditingController txtCtrlr) {
+    txtCtrlr.text = Player.generateRandomPlayerName();
+    changePlayerName(txtCtrlr.text);
+    changePlayerSex(Player.generateRandomPlayerSex());
+    print("generate random hero ${user.playerName}, ${user.playerSex}");
   }
 
   void createNewPlayer() {

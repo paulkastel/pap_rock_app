@@ -4,21 +4,7 @@ import 'package:pap_rock_app/ViewModel/LoginPageViewModel.dart';
 
 ///First page visible for user to enter player data
 class LoginPageView extends LoginPageState {
-  TextEditingController _txtFieldCtrlr;
-  FocusNode _textFieldFcsNode;
-
-  bool _isTextFormCorrect;
-
-  ///Method that set _isTextFormCorrect based on valid logic
-  void _isUserNameFormValidated() {
-    setState(() {
-      if (_txtFieldCtrlr.text.length < 5 ||
-          !RegExp(r'^[a-zA-Z]+$').hasMatch(_txtFieldCtrlr.text))
-        _isTextFormCorrect = false;
-      else
-        _isTextFormCorrect = true;
-    });
-  }
+  final TextEditingController _txtFieldCtrlr = TextEditingController(text: "");
 
   @override
   void dispose() {
@@ -29,12 +15,10 @@ class LoginPageView extends LoginPageState {
 
   @override
   void initState() {
-    _isTextFormCorrect = false;
-    _txtFieldCtrlr = new TextEditingController();
-    _textFieldFcsNode = new FocusNode();
-    _txtFieldCtrlr.addListener(_isUserNameFormValidated);
-    _textFieldFcsNode.addListener(_isUserNameFormValidated);
     super.initState();
+    _txtFieldCtrlr.addListener(() {
+      isUserNameFormValidated(_txtFieldCtrlr.text);
+    });
   }
 
   @override
@@ -83,7 +67,6 @@ class LoginPageView extends LoginPageState {
                       }
                     },
                     controller: _txtFieldCtrlr,
-                    focusNode: _textFieldFcsNode,
                     decoration: InputDecoration(
                       hintText: "Player name",
                       contentPadding: EdgeInsets.all(15),
@@ -139,10 +122,7 @@ class LoginPageView extends LoginPageState {
                           color: Colors.blueAccent,
                           child: Text("Select randomly"),
                           onPressed: () {
-                            _txtFieldCtrlr.text = Player.generateRandomPlayerName();
-                            changePlayerName(_txtFieldCtrlr.text);
-                            changePlayerSex(Player.generateRandomPlayerSex());
-                            print("generate random hero ${user.playerName}, ${user.playerSex}");
+                            createNewRandomPlayer(this._txtFieldCtrlr);
                           },
                         ),
                       ),
@@ -152,7 +132,7 @@ class LoginPageView extends LoginPageState {
                       MaterialButton(
                         color: Colors.green,
                         child: Text("Done"),
-                        onPressed: _isTextFormCorrect ? createNewPlayer : null,
+                        onPressed: isTextFormCorrect ? createNewPlayer : null,
                       ),
                     ],
                   ),
