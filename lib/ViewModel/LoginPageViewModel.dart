@@ -9,8 +9,6 @@ class LoginPage extends StatefulWidget {
 }
 
 abstract class LoginPageState extends State<LoginPage> {
-  final formNameKey = GlobalKey<FormState>();
-
   @protected
   Player user;
 
@@ -55,11 +53,8 @@ abstract class LoginPageState extends State<LoginPage> {
     print("generate random hero ${user.playerName}, ${user.playerSex}");
   }
 
-  void createNewPlayer() {
-    if (formNameKey.currentState.validate()) {
-      formNameKey.currentState.save();
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage(user)));
-    }
+  void moveToHomeScreen() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomePage(user)));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pap_rock_app/Model/Player.dart';
+import 'package:pap_rock_app/View/PlayersNameTextField.dart';
 import 'package:pap_rock_app/ViewModel/LoginPageViewModel.dart';
 
 ///First page visible for user to enter player data
@@ -20,7 +21,7 @@ class LoginPageView extends LoginPageState {
       isUserNameFormValidated(_txtFieldCtrlr.text);
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,114 +32,81 @@ class LoginPageView extends LoginPageState {
           const Color.fromRGBO(228, 239, 233, 1),
         ], begin: Alignment.topRight, end: Alignment.bottomLeft)),
         child: Center(
-          child: Form(
-            key: formNameKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  child: Text(
-                    "PapRock",
-                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-                  ),
-                  padding: const EdgeInsets.only(bottom: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                child: Text(
+                  "PapRock",
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "Please enter your name",
-                    style: TextStyle(fontSize: 20),
+                padding: const EdgeInsets.only(bottom: 30),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  "Please enter your name",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              PlayersNameTextField(_txtFieldCtrlr),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  "Select your sex:",
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                  child: TextFormField(
-                    autovalidate: true,
-                    autocorrect: false,
-                    maxLength: 20,
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.text,
-                    validator: (nameValue) {
-                      if (nameValue.length < 5) {
-                        return "Name is too short!";
-                      }
-                      if (!RegExp(r'^[a-zA-Z]+$').hasMatch(nameValue)) {
-                        return "Name shouldn't contain any special characters!";
-                      }
-                    },
-                    controller: _txtFieldCtrlr,
-                    decoration: InputDecoration(
-                      hintText: "Player name",
-                      contentPadding: EdgeInsets.all(15),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Radio(
+                      value: PlayerSex.Male,
+                      onChanged: (sexValue) {
+                        changePlayerSex(sexValue);
+                      },
+                      groupValue: user.playerSex,
                     ),
-                    onFieldSubmitted: (String nameValue) {
-                      changePlayerName(_txtFieldCtrlr.text);
-                    },
-                    onSaved: (String nameValue) {
-                      changePlayerName(_txtFieldCtrlr.text);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "Select your sex:",
-                    style: TextStyle(
-                      fontSize: 20,
+                    Text("Male"),
+                    Radio(
+                      value: PlayerSex.Female,
+                      onChanged: (sexValue) {
+                        changePlayerSex(sexValue);
+                      },
+                      groupValue: user.playerSex,
                     ),
-                  ),
+                    Text("Female")
+                  ],
                 ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Radio(
-                        value: PlayerSex.Male,
-                        onChanged: (sexValue) {
-                          changePlayerSex(sexValue);
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40.0, right: 40.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: MaterialButton(
+                        color: Colors.blueAccent,
+                        child: Text("Select randomly"),
+                        onPressed: () {
+                          createNewRandomPlayer(this._txtFieldCtrlr);
                         },
-                        groupValue: user.playerSex,
                       ),
-                      Text("Male"),
-                      Radio(
-                        value: PlayerSex.Female,
-                        onChanged: (sexValue) {
-                          changePlayerSex(sexValue);
-                        },
-                        groupValue: user.playerSex,
-                      ),
-                      Text("Female")
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    MaterialButton(
+                      color: Colors.green,
+                      child: Text("Done"),
+                      onPressed: isTextFormCorrect ? moveToHomeScreen : null,
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: MaterialButton(
-                          color: Colors.blueAccent,
-                          child: Text("Select randomly"),
-                          onPressed: () {
-                            createNewRandomPlayer(this._txtFieldCtrlr);
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      MaterialButton(
-                        color: Colors.green,
-                        child: Text("Done"),
-                        onPressed: isTextFormCorrect ? createNewPlayer : null,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),
